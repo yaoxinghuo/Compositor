@@ -55,7 +55,7 @@ jobs:
           lipo -info "$APP/Contents/MacOS/Compositor"
           MINIMUM=$(/usr/libexec/PlistBuddy -c "Print :LSMinimumSystemVersion" "$APP/Contents/Info.plist")
           echo "LSMinimumSystemVersion: $MINIMUM"
-          test "$MINIMUM" = "15.0"
+          test "$MINIMUM" = "15.4"
 
       - name: Package DMG
         run: |
