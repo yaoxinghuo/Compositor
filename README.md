@@ -63,12 +63,17 @@ Because it’s open source, you can download the Xcode project and add, remove, 
 
 ## Requirements
 
-- macOS 26.5 or later
+- macOS 15 or later
 - Xcode 26 or later (to build from source)
 
 ## Building
 
 Open `Compositor.xcodeproj` and run the **Compositor** scheme.
+
+This fork also builds a universal (Intel + Apple Silicon) DMG for macOS 15+ in GitHub Actions — see
+the **Build macOS 15** workflow under Actions. The build is ad-hoc signed rather than notarized, so
+on first open Gatekeeper may warn the developer can't be verified: right-click the app and choose
+Open, or clear the quarantine flag with `xattr -dr com.apple.quarantine /Applications/Compositor.app`.
 
 ## Releasing
 
