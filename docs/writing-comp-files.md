@@ -28,7 +28,7 @@ A minimal manifest with one full-canvas image layer:
 ```json
 {
   "format": "com.compositor.project",
-  "version": 9,
+  "version": 11,
   "colorSpace": "sRGB",
   "documentID": "0C5E7A91-3B2D-4F6A-8E1C-9D0B7A6F5E4D",
   "width": 1920,
@@ -83,13 +83,15 @@ To change an existing layer, keep its `id` and overwrite its PNG, then rewrite t
 
 Remove images you no longer reference once the manifest no longer lists them.
 
+A project Compositor saved also has a `QuickLook` folder (`Preview.jpg`), which Finder shows as its Space-bar preview. When you change a project, delete that folder, so Finder doesn't preview an out-of-date picture; Compositor writes it again the next time it saves.
+
 ## What the open app does
 
 - It reloads about a third of a second after writes stop. Several writes in quick succession arrive as one update, so pause briefly between steps if a viewer should see each one.
 - A reload keeps the zoom, scroll and selection, but clears undo, as reopening a file does.
 - If the person has unsaved changes of their own, Compositor asks them to revert to your version or keep theirs, and never replaces their work silently.
 - A write that fails to load is ignored until the next change, so a mistake you then fix will still show up.
-- Changes are noticed from the manifest's contents and from each image's name and size. Rewriting a PNG with different pixels changes its size in practice, but if you replace an image with one of exactly the same byte size, also rewrite the manifest.
+- Changes are noticed from the manifest's contents and from each image's name and size, not from when files were written. Rewriting a PNG with different pixels changes its size in practice. If you replace an image with one of exactly the same byte size, also make a change to the manifest, such as renaming the layer; writing identical manifest bytes back isn't enough.
 
 ## Masks
 
