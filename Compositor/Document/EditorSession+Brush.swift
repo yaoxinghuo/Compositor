@@ -75,8 +75,13 @@ extension EditorSession {
             }
             // Blur paints a softened copy of the layer, in place, through the brush tip.
             if tool == .blur {
-                guard let sample = blurSample(for: stroke) else { return }
-                stroke.clone = sample
+                guard let blur = blurSample(for: stroke) else { return }
+                stroke.clone = blur.sample
+                stroke.cloneRender = blur.render
+                if let deepRender = blur.deepRender {
+                    stroke.deepClone = blur.sample
+                    stroke.deepCloneRender = deepRender
+                }
             }
             stroke.isBlur = tool == .blur
             brushStroke = stroke

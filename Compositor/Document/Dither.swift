@@ -28,6 +28,8 @@ nonisolated enum DitherStyle: String, CaseIterable, Sendable {
     var isHalftone: Bool { Self.groups[2].contains(self) }
     /// Halftone shapes, patterns and characters mark one tone on the other, so which one is the mark matters.
     var drawsMarks: Bool { !hasTones }
+    /// ASCII's characters are drawn at full resolution, not in chunky pixels.
+    var usesPixelSize: Bool { self != .ascii }
 }
 
 /// How a chunky pixel is drawn: a solid square, or a round dot with the dark color showing around it, like the lit
@@ -93,8 +95,8 @@ nonisolated struct DitherSettings: Equatable, Sendable {
 
     func apply(_ image: CGImage) throws -> CGImage {
         let settings = normalized
-        // ASCII draws its characters at full resolution: shrinking the image first would blur and break them up.
-        let block = settings.style == .ascii ? 1 : Int(settings.pixelSize)
+        // ASCII draws at full resolution: shrinking the image first would blur and break its characters up.
+        let block = settings.style.usesPixelSize ? Int(settings.pixelSize) : 1
         // Chunky pixels: dither a copy averaged down by the pixel size, then blow it back up without smoothing.
         var working = image
         if block > 1 {
